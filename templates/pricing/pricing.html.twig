@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pricing{% endblock %}
+
+
+{% block body %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 class="display-4">Pricing</h1>
+  <p class="lead text-center pl-5 pr-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+</div>
+
+<div class="container">
+  <div class="card-deck mb-3 text-center">
+      
+      {% for pricing_plan in pricing_plans %}
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">{{ pricing_plan.name }}</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">{{ pricing_plan.price }}<small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+             {% for benefit in pricing_plan.benefits %}
+                <li>{{ benefit.name }}</li>
+             {% endfor %}
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+          </div>
+        </div> 
+      {% endfor %}
+
+
+
+      {# tables for features and pricing plan #}
+
+    <table class="table">
+      <thead>
+        <tr>
+        <th scope="col">Features</th>
+        {% for pricing_plan in pricing_plans %}
+          <th scope="col">{{ pricing_plan.name }}</th>
+        {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for feature in features %}
+          <tr>
+            <th scope="row" class="text-start">{{ feature.name }}</th>
+            {% for pricing_plan in pricing_plans %}
+              {% if pricing_plan.hasFeature(feature) %}
+                <td>&#10004</td>
+              {% else %}
+                <td></td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+       
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}
